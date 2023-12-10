@@ -78,7 +78,9 @@ function ReanimatedChat({ navigation }: Props) {
           ))}
         </View>
       </Reanimated.ScrollView>
-      <AnimatedTextInput style={textInputStyle} />
+      <View style={{ backgroundColor: '#BCBCBC' }}>
+        <AnimatedTextInput style={textInputStyle} />
+      </View>
     </View>
   );
 }
