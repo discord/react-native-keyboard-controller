@@ -35,8 +35,6 @@ type FocusedInputTextChangedEvent = Readonly<{
 export interface NativeProps extends ViewProps {
   // props
   enabled?: boolean;
-  statusBarTranslucent?: boolean;
-  navigationBarTranslucent?: boolean;
   // callbacks
   /// keyboard
   onKeyboardMoveStart?: DirectEventHandler<KeyboardMoveEvent>;

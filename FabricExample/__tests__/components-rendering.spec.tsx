@@ -15,12 +15,12 @@ function EmptyView() {
 }
 
 function KeyboardControllerViewTest() {
-  return <KeyboardControllerView statusBarTranslucent />;
+  return <KeyboardControllerView />;
 }
 
 function KeyboardProviderTest() {
   return (
-    <KeyboardProvider statusBarTranslucent>
+    <KeyboardProvider>
       <EmptyView />
     </KeyboardProvider>
   );

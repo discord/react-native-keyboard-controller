@@ -15,14 +15,6 @@ class KeyboardControllerViewManagerImpl(mReactContext: ReactApplicationContext) 
     view.setActive(enabled)
   }
 
-  fun setStatusBarTranslucent(view: EdgeToEdgeReactViewGroup, isStatusBarTranslucent: Boolean) {
-    view.setStatusBarTranslucent(isStatusBarTranslucent)
-  }
-
-  fun setNavigationBarTranslucent(view: EdgeToEdgeReactViewGroup, isNavigationBarTranslucent: Boolean) {
-    view.setNavigationBarTranslucent(isNavigationBarTranslucent)
-  }
-
   fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Any> {
     val map: MutableMap<String, Any> = MapBuilder.of(
       "topKeyboardMove",

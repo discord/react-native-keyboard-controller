@@ -27,16 +27,6 @@ class KeyboardControllerViewManager(mReactContext: ReactApplicationContext) :
     return manager.createViewInstance(context)
   }
 
-  @ReactProp(name = "statusBarTranslucent")
-  override fun setStatusBarTranslucent(view: ReactViewGroup, value: Boolean) {
-    return manager.setStatusBarTranslucent(view as EdgeToEdgeReactViewGroup, value)
-  }
-
-  @ReactProp(name = "navigationBarTranslucent")
-  override fun setNavigationBarTranslucent(view: ReactViewGroup, value: Boolean) {
-    return manager.setNavigationBarTranslucent(view as EdgeToEdgeReactViewGroup, value)
-  }
-
   @ReactProp(name = "enabled")
   override fun setEnabled(view: ReactViewGroup, value: Boolean) {
     return manager.setEnabled(view as EdgeToEdgeReactViewGroup, value)

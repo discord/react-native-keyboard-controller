@@ -46,24 +46,6 @@ const styles = StyleSheet.create<Styles>({
 type KeyboardProviderProps = {
   children: React.ReactNode;
   /**
-   * Set the value to `true`, if you use translucent status bar on Android.
-   * If you already control status bar translucency via `react-native-screens`
-   * or `StatusBar` component from `react-native`, you can ignore it.
-   * Defaults to `false`.
-   *
-   * @see https://github.com/kirillzyusko/react-native-keyboard-controller/issues/14
-   * @platform android
-   */
-  statusBarTranslucent?: boolean;
-  /**
-   * Set the value to `true`, if you use translucent navigation bar on Android.
-   * Defaults to `false`.
-   *
-   * @see https://github.com/kirillzyusko/react-native-keyboard-controller/issues/119
-   * @platform android
-   */
-  navigationBarTranslucent?: boolean;
-  /**
    * A boolean prop indicating whether the module is enabled. It indicate only initial state,
    * i. e. if you try to change this prop after component mount it will not have any effect.
    * To change the property in runtime use `useKeyboardController` hook and `setEnabled` method.
@@ -78,8 +60,6 @@ const OS = Platform.OS;
 
 export const KeyboardProvider = ({
   children,
-  statusBarTranslucent,
-  navigationBarTranslucent,
   enabled: initiallyEnabled = true,
 }: KeyboardProviderProps) => {
   // state
@@ -208,10 +188,8 @@ export const KeyboardProvider = ({
         onKeyboardMoveStart={OS === "ios" ? onKeyboardMove : undefined}
         onKeyboardMove={OS === "android" ? onKeyboardMove : undefined}
         onKeyboardMoveInteractive={onKeyboardMove}
-        onFocusedInputLayoutChangedReanimated={inputLayoutHandler}
         onFocusedInputTextChangedReanimated={inputTextHandler}
-        navigationBarTranslucent={navigationBarTranslucent}
-        statusBarTranslucent={statusBarTranslucent}
+        onFocusedInputLayoutChangedReanimated={inputLayoutHandler}
         style={styles.container}
       >
         {children}

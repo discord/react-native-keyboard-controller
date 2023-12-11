@@ -23,8 +23,6 @@ private val TAG = EdgeToEdgeReactViewGroup::class.qualifiedName
 @SuppressLint("ViewConstructor")
 class EdgeToEdgeReactViewGroup(private val reactContext: ThemedReactContext) : ReactViewGroup(reactContext) {
   // props
-  private var isStatusBarTranslucent = false
-  private var isNavigationBarTranslucent = false
   private var active = false
 
   // internal class members
@@ -63,36 +61,16 @@ class EdgeToEdgeReactViewGroup(private val reactContext: ThemedReactContext) : R
           FrameLayout.LayoutParams.MATCH_PARENT,
         )
 
-        val shouldApplyZeroPaddingTop = !active || this.isStatusBarTranslucent
-        val shouldApplyZeroPaddingBottom = !active || this.isNavigationBarTranslucent
-        params.setMargins(
-          0,
-          if (shouldApplyZeroPaddingTop) {
-            0
-          } else {
-            (
-              insets?.getInsets(WindowInsetsCompat.Type.systemBars())?.top
-                ?: 0
-              )
-          },
-          0,
-          if (shouldApplyZeroPaddingBottom) {
-            0
-          } else {
-            insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom
-              ?: 0
-          },
-        )
-
+        params.setMargins(0, 0, 0, 0)
         content?.layoutParams = params
 
         val defaultInsets = ViewCompat.onApplyWindowInsets(v, insets)
 
         defaultInsets.replaceSystemWindowInsets(
           defaultInsets.systemWindowInsetLeft,
-          if (this.isStatusBarTranslucent) 0 else defaultInsets.systemWindowInsetTop,
+          0,
           defaultInsets.systemWindowInsetRight,
-          if (this.isNavigationBarTranslucent) 0 else defaultInsets.systemWindowInsetBottom,
+          0,
         )
       }
     }
@@ -169,14 +147,6 @@ class EdgeToEdgeReactViewGroup(private val reactContext: ThemedReactContext) : R
   // endregion
 
   // region Props setters
-  fun setStatusBarTranslucent(isStatusBarTranslucent: Boolean) {
-    this.isStatusBarTranslucent = isStatusBarTranslucent
-  }
-
-  fun setNavigationBarTranslucent(isNavigationBarTranslucent: Boolean) {
-    this.isNavigationBarTranslucent = isNavigationBarTranslucent
-  }
-
   fun setActive(active: Boolean) {
     this.active = active
 
