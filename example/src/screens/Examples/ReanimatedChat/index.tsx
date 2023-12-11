@@ -39,8 +39,8 @@ function ReanimatedChat({ navigation }: Props) {
   const { bottom: bottomInset } = useSafeAreaInsets();
 
   const height = useDerivedValue(
-    () => (isTGTransition ? telegram.value : platform.value) - bottomInset,
-    [isTGTransition, bottomInset]
+    () => (isTGTransition ? telegram.value : platform.value),
+    [isTGTransition]
   );
 
   const scrollViewStyle = useAnimatedStyle(
@@ -78,7 +78,7 @@ function ReanimatedChat({ navigation }: Props) {
           ))}
         </View>
       </Reanimated.ScrollView>
-      <View style={{ backgroundColor: '#BCBCBC' }}>
+      <View style={{ backgroundColor: '#BCBCBC', paddingBottom: bottomInset }}>
         <AnimatedTextInput style={textInputStyle} />
       </View>
     </View>

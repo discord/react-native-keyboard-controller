@@ -205,13 +205,10 @@ class KeyboardAnimationCallback(
     // First we get the insets which are potentially deferred
     val typesInset = insets.getInsets(deferredInsetTypes)
     // Then we get the persistent inset types which are applied as padding during layout
-    val otherInset = insets.getInsets(persistentInsetTypes)
+    val otherInset = insets.getInsets(persistentInsetTypes) // TODO: Cleanup mentions of WindowInsetsCompat.Type.systemBars()
 
-    // Now that we subtract the two insets, to calculate the difference. We also coerce
-    // the insets to be >= 0, to make sure we don't use negative insets.
-    val diff = Insets.subtract(typesInset, otherInset).let {
-      Insets.max(it, Insets.NONE)
-    }
+    // We coerce the insets to be >= 0, to make sure we don't use negative insets.
+    val diff = Insets.max(typesInset, Insets.NONE)
     val diffY = (diff.bottom - diff.top).toFloat()
     val height = diffY.dp
 
