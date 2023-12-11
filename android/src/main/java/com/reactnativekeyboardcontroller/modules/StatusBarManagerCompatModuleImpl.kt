@@ -2,9 +2,7 @@ package com.reactnativekeyboardcontroller.modules
 
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.facebook.react.bridge.ReactApplicationContext
@@ -25,7 +23,6 @@ class StatusBarManagerCompatModuleImpl(private val mReactContext: ReactApplicati
     }
   }
 
-  @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
   fun setColor(color: Int, animated: Boolean) {
     val activity = mReactContext.currentActivity
     if (activity == null) {
