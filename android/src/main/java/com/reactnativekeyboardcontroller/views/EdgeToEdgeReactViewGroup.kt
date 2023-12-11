@@ -117,7 +117,6 @@ class EdgeToEdgeReactViewGroup(private val reactContext: ThemedReactContext) : R
 
       callback = KeyboardAnimationCallback(
         view = this,
-        persistentInsetTypes = WindowInsetsCompat.Type.systemBars(),
         deferredInsetTypes = WindowInsetsCompat.Type.ime(),
         dispatchMode = WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE,
         context = reactContext,
