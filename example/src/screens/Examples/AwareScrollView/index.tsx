@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 import TextInput from "../../../components/TextInput";
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
 import type { ExamplesStackParamList } from "../../../navigation/ExamplesStack";
 import type { StackScreenProps } from "@react-navigation/stack";

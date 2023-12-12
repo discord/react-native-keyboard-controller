@@ -9,25 +9,13 @@ import type { AnimatedContext, ReanimatedContext } from "./context";
 import type { FocusedInputHandler, KeyboardHandler } from "./types";
 import type { DependencyList } from "react";
 
-export const useResizeMode = () => {
-  useEffect(() => {
-    KeyboardController.setInputMode(
-      AndroidSoftInputModes.SOFT_INPUT_ADJUST_RESIZE,
-    );
-
-    return () => KeyboardController.setDefaultMode();
-  }, []);
-};
-
 export const useKeyboardAnimation = (): AnimatedContext => {
-  useResizeMode();
   const context = useKeyboardContext();
 
   return context.animated;
 };
 
 export const useReanimatedKeyboardAnimation = (): ReanimatedContext => {
-  useResizeMode();
   const context = useKeyboardContext();
 
   return context.reanimated;
@@ -54,7 +42,6 @@ export function useKeyboardHandler(
   handler: KeyboardHandler,
   deps?: DependencyList,
 ) {
-  useResizeMode();
   useGenericKeyboardHandler(handler, deps);
 }
 
