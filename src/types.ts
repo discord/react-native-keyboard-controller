@@ -82,9 +82,6 @@ export type KeyboardGestureAreaProps = {
 
 export type Direction = "next" | "prev" | "current";
 export type KeyboardControllerModule = {
-  // android only
-  setDefaultMode: () => void;
-  setInputMode: (mode: number) => void;
   // all platforms
   dismiss: () => void;
   setFocusTo: (direction: Direction) => void;

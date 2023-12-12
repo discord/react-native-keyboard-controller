@@ -1,7 +1,5 @@
 import { useEffect } from "react";
 
-import { KeyboardController } from "./bindings";
-import { AndroidSoftInputModes } from "./constants";
 import { useKeyboardContext } from "./context";
 import { uuid } from "./utils";
 

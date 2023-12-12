@@ -6,8 +6,6 @@ export interface Spec extends TurboModule {
   readonly getConstants: () => {};
 
   // methods
-  setInputMode(mode: number): void;
-  setDefaultMode(): void;
   dismiss(): void;
   setFocusTo(direction: string): void;
 

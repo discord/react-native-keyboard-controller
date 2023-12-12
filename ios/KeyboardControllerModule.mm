@@ -52,22 +52,6 @@ RCT_EXPORT_MODULE()
 }
 
 #ifdef RCT_NEW_ARCH_ENABLED
-- (void)setDefaultMode
-#else
-RCT_EXPORT_METHOD(setDefaultMode)
-#endif
-{
-}
-
-#ifdef RCT_NEW_ARCH_ENABLED
-- (void)setInputMode:(double)mode
-#else
-RCT_EXPORT_METHOD(setInputMode : (nonnull NSNumber *)mode)
-#endif
-{
-}
-
-#ifdef RCT_NEW_ARCH_ENABLED
 - (void)dismiss
 #else
 RCT_EXPORT_METHOD(dismiss)

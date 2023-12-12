@@ -8,14 +8,6 @@ class KeyboardControllerModule(mReactContext: ReactApplicationContext) : NativeK
 
   override fun getName(): String = KeyboardControllerModuleImpl.NAME
 
-  override fun setInputMode(mode: Double) {
-    module.setInputMode(mode.toInt())
-  }
-
-  override fun setDefaultMode() {
-    module.setDefaultMode()
-  }
-
   override fun dismiss() {
     module.dismiss()
   }

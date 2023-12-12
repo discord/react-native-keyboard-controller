@@ -11,16 +11,6 @@ class KeyboardControllerModule(mReactContext: ReactApplicationContext) : ReactCo
   override fun getName(): String = KeyboardControllerModuleImpl.NAME
 
   @ReactMethod
-  fun setInputMode(mode: Int) {
-    module.setInputMode(mode)
-  }
-
-  @ReactMethod
-  fun setDefaultMode() {
-    module.setDefaultMode()
-  }
-
-  @ReactMethod
   fun dismiss() {
     module.dismiss()
   }

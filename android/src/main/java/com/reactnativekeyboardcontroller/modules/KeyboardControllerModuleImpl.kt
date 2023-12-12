@@ -10,21 +10,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.UiThreadUtil
 import com.reactnativekeyboardcontroller.traversal.FocusedInputHolder
 import com.reactnativekeyboardcontroller.traversal.ViewHierarchyNavigator
 
 class KeyboardControllerModuleImpl(private val mReactContext: ReactApplicationContext) {
-  private val mDefaultMode: Int = getCurrentMode()
-
-  fun setInputMode(mode: Int) {
-    setSoftInputMode(mode)
-  }
-
-  fun setDefaultMode() {
-    setSoftInputMode(mDefaultMode)
-  }
-
   fun dismiss() {
     val activity = mReactContext.currentActivity
     val view: View? = activity?.currentFocus
@@ -46,23 +35,6 @@ class KeyboardControllerModuleImpl(private val mReactContext: ReactApplicationCo
     if (view != null) {
       ViewHierarchyNavigator.setFocusTo(direction, view)
     }
-  }
-
-  private fun setSoftInputMode(mode: Int) {
-    UiThreadUtil.runOnUiThread {
-      if (getCurrentMode() != mode) {
-        mReactContext.currentActivity?.window?.setSoftInputMode(mode)
-      }
-    }
-  }
-
-  private fun getCurrentMode(): Int {
-    return mReactContext
-      .currentActivity
-      ?.window
-      ?.attributes
-      ?.softInputMode
-      ?: WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED
   }
 
   companion object {
