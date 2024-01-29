@@ -31,14 +31,14 @@ TODO: Define API using https://kirillzyusko.github.io/react-native-keyboard-cont
 
 ```ts
 type KeyboardEventName =
-  | 'keyboardWillShow'
-  | 'keyboardDidShow'
-  | 'keyboardWillHide'
-  | 'keyboardDidHide';
+  | "keyboardWillShow"
+  | "keyboardDidShow"
+  | "keyboardWillHide"
+  | "keyboardDidHide";
 
 const addListener: (
   eventType: KeyboardEventName,
-  listener: KeyboardEventListener
+  listener: KeyboardEventListener,
 ) => EmitterSubscription;
 
 const dismiss: () => void;
