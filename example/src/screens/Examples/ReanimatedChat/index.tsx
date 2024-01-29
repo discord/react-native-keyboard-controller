@@ -35,7 +35,7 @@ function ReanimatedChat({ navigation }: Props) {
   }, [isTGTransition]);
 
   const { height: telegram } = useTelegramTransitions();
-  const { height: platform } = useReanimatedKeyboardAnimation();
+  const { height: platform, progress } = useReanimatedKeyboardAnimation();
   const { bottom: bottomInset } = useSafeAreaInsets();
 
   const height = useDerivedValue(
@@ -45,7 +45,9 @@ function ReanimatedChat({ navigation }: Props) {
 
   const scrollViewStyle = useAnimatedStyle(
     () => ({
-      transform: [{ translateY: height.value }, ...styles.inverted.transform],
+      transform: [
+        /*{ translateY: height.value },*/ ...styles.inverted.transform,
+      ],
     }),
     [],
   );
@@ -54,15 +56,15 @@ function ReanimatedChat({ navigation }: Props) {
       height: 50,
       width: "100%",
       backgroundColor: "#BCBCBC",
-      transform: [{ translateY: height.value }],
+      //transform: [{ translateY: height.value }],
     }),
     [],
   );
   const fakeView = useAnimatedStyle(
     () => ({
-      height: Math.abs(height.value),
+      height: progress.value === 1 ? -height.value - bottomInset : 0,
     }),
-    [],
+    [bottomInset],
   );
 
   return (
@@ -78,9 +80,8 @@ function ReanimatedChat({ navigation }: Props) {
           ))}
         </View>
       </Reanimated.ScrollView>
-      <View style={{ backgroundColor: "#BCBCBC", paddingBottom: bottomInset }}>
-        <AnimatedTextInput style={textInputStyle} />
-      </View>
+      <AnimatedTextInput style={textInputStyle} />
+      <View style={{ backgroundColor: "#BCBCBC", height: bottomInset }} />
     </View>
   );
 }
