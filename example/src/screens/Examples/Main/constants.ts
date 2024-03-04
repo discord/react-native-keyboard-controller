@@ -105,4 +105,10 @@ export const examples: Example[] = [
     info: ScreenNames.TOOLBAR,
     icons: "🔥",
   },
+  {
+    title: "Over keyboard view",
+    testID: "over_keyboard_view",
+    info: ScreenNames.OVER_KEYBOARD_VIEW,
+    icons: "🤫",
+  },
 ];

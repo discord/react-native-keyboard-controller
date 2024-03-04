@@ -6,6 +6,7 @@ import type {
   KeyboardControllerProps,
   KeyboardEventsModule,
   KeyboardGestureAreaProps,
+  OverKeyboardViewProps,
 } from "./types";
 
 const LINKING_ERROR =
@@ -50,3 +51,5 @@ export const KeyboardGestureArea: React.FC<KeyboardGestureAreaProps> =
   Platform.OS === "android" && Platform.Version >= 30
     ? require("./specs/KeyboardGestureAreaNativeComponent").default
     : ({ children }: KeyboardGestureAreaProps) => children;
+export const OverKeyboardView: React.FC<OverKeyboardViewProps> =
+  require("./specs/OverKeyboardViewNativeComponent").default;

@@ -81,6 +81,7 @@ export type KeyboardGestureAreaProps = {
    */
   enableSwipeToDismiss?: boolean;
 } & ViewProps;
+export type OverKeyboardViewProps = Record<string, never> & ViewProps;
 
 export type Direction = "next" | "prev" | "current";
 export type KeyboardControllerModule = {
