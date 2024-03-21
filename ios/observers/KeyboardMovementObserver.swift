@@ -181,7 +181,7 @@ public class KeyboardMovementObserver: NSObject {
   @objc func keyboardWillAppear(_ notification: Notification) {
     if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
       tag = UIResponder.current.reactViewTag
-
+        
       let keyboardHeight = keyboardFrame.cgRectValue.size.height
       let duration = Int(
         (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0) * 1000
@@ -194,6 +194,8 @@ public class KeyboardMovementObserver: NSObject {
       data["duration"] = duration
       data["timestamp"] = Date.currentTimeStamp
       data["target"] = tag
+        
+      print("keyboardWillAppear \(keyboardHeight) \(Date.currentTimeStamp)")
 
       onEvent("onKeyboardMoveStart", Float(keyboardHeight) as NSNumber, 1, duration as NSNumber, tag)
       onNotify("KeyboardController::keyboardWillShow", data)
@@ -217,6 +219,8 @@ public class KeyboardMovementObserver: NSObject {
 
     onEvent("onKeyboardMoveStart", 0, 0, duration as NSNumber, tag)
     onNotify("KeyboardController::keyboardWillHide", data)
+      
+    print("keyboardWillDisappear \(keyboardHeight) \(Date.currentTimeStamp)")
 
     setupKeyboardWatcher()
     removeKVObserver()
@@ -239,13 +243,15 @@ public class KeyboardMovementObserver: NSObject {
 
       onEvent("onKeyboardMoveEnd", keyboardHeight as NSNumber, 1, duration as NSNumber, tag)
       onNotify("KeyboardController::keyboardDidShow", data)
+        
+      print("keyboardDidAppear \(keyboardHeight) \(Date.currentTimeStamp)")
 
       removeKeyboardWatcher()
       setupKVObserver()
       
       let h = 50
       offset = h
-      if let activeTextField = UIResponder.current as? UITextField {
+        if let activeTextField = UIResponder.current as? UITextField, activeTextField.inputAccessoryView == nil {
           activeTextField.inputAccessoryView = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: 0, height: h))
           activeTextField.reloadInputViews()
       }
@@ -267,6 +273,8 @@ public class KeyboardMovementObserver: NSObject {
     onNotify("KeyboardController::keyboardDidHide", data)
 
     removeKeyboardWatcher()
+      
+    print("keyboardDidDisappear \(keyboardHeight) \(Date.currentTimeStamp)")
   }
 
   @objc func setupKeyboardWatcher() {
@@ -299,6 +307,8 @@ public class KeyboardMovementObserver: NSObject {
     if keyboardPosition == prevKeyboardPosition || keyboardFrameY == 0 {
       return
     }
+      
+    print("onMove \(keyboardPosition)")
 
     prevKeyboardPosition = keyboardPosition
     onEvent(
