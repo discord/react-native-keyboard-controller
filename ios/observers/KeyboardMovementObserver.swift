@@ -61,6 +61,8 @@ public class KeyboardMovementObserver: NSObject {
   private var keyboardHeight: CGFloat = 0.0
   private var duration = 0
   private var tag: NSNumber = -1
+  // interactive keyboard
+  private var offset = 0
 
   @objc public init(
     handler: @escaping (NSString, NSNumber, NSNumber, NSNumber, NSNumber) -> Void,
@@ -179,10 +181,6 @@ public class KeyboardMovementObserver: NSObject {
   @objc func keyboardWillAppear(_ notification: Notification) {
     if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
       tag = UIResponder.current.reactViewTag
-        if let activeTextField = UIResponder.current as? UITextField {
-            activeTextField.inputAccessoryView = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: 0, height: 50))
-            activeTextField.reloadInputViews()
-        }
 
       let keyboardHeight = keyboardFrame.cgRectValue.size.height
       let duration = Int(
@@ -244,6 +242,13 @@ public class KeyboardMovementObserver: NSObject {
 
       removeKeyboardWatcher()
       setupKVObserver()
+      
+      let h = 50
+      offset = h
+      if let activeTextField = UIResponder.current as? UITextField {
+          activeTextField.inputAccessoryView = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: 0, height: h))
+          activeTextField.reloadInputViews()
+      }
     }
   }
 
