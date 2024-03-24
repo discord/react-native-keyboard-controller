@@ -9,10 +9,60 @@
 import Foundation
 import UIKit
 
+
+class CustomDelegate: NSObject, UITextFieldDelegate {
+    private var inputAccessoryView2: UIView?
+    
+    init(inputAccessoryView: UIView? = nil) {
+        self.inputAccessoryView2 = inputAccessoryView
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        print("333333 \(Date.currentTimeStamp)")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        print("11111 \(Date.currentTimeStamp)")
+        inputAccessoryView2?.removeFromSuperview()
+
+        print(textField.inputAccessoryView)
+        //
+        // textField.inputAccessoryView = nil
+        // textField.reloadInputViews()
+        //
+        // textField.inputAccessoryView?.frame = CGRect(x: 0, y: 0, width: 0, height: 200)
+        // textField.inputAccessoryView?.layoutIfNeeded()
+        // textField.inputAccessoryView?.reloadInputViews()
+        // textField.inputAccessoryView?.isHidden = true
+        // textField.reloadInputViews()
+        
+        print(textField.inputAccessoryView)
+        // Dismiss the keyboard
+        /*DispatchQueue.main.asyncAfter(deadline: .now() + 0.008) {
+            textField.resignFirstResponder()
+        }
+        
+        return false*/
+        
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //inputAccessoryView?.removeFromSuperview()
+        //textField.inputAccessoryView = nil
+        //textField.reloadInputViews()
+        
+        print("2222 \(Date.currentTimeStamp)")
+    }
+}
+
+
+
 @objc(KeyboardMovementObserver)
 public class KeyboardMovementObserver: NSObject {
   // class members
-  var onEvent: (NSString, NSNumber, NSNumber, NSNumber, NSNumber) -> Void
+  var onEventHanlder: (NSString, NSNumber, NSNumber, NSNumber, NSNumber) -> Void
   var onNotify: (String, Any) -> Void
   // progress tracker
   private var _keyboardView: UIView?
@@ -38,12 +88,14 @@ public class KeyboardMovementObserver: NSObject {
   // interactive keyboard
   private var hasKVObserver = false
   private var offset: CGFloat = 0.0
+    private var inputAccessoryView: UIView?
+    private var del: CustomDelegate?
 
   @objc public init(
     handler: @escaping (NSString, NSNumber, NSNumber, NSNumber, NSNumber) -> Void,
     onNotify: @escaping (String, Any) -> Void
   ) {
-    onEvent = handler
+    onEventHanlder = handler
     self.onNotify = onNotify
   }
 
@@ -54,6 +106,12 @@ public class KeyboardMovementObserver: NSObject {
 
     isMounted = true
 
+      NotificationCenter.default.addObserver(
+        self,
+        selector: #selector(keyboardWillChangeFrame),
+        name: UIResponder.keyboardWillChangeFrameNotification,
+        object: nil
+      )
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillDisappear),
@@ -116,7 +174,7 @@ public class KeyboardMovementObserver: NSObject {
       }
       // if keyboard height is not equal to its bounds - we can ignore
       // values, since they'll be invalid and will cause UI jumps
-      if keyboardView?.bounds.size.height != keyboardHeight + offset {
+      if keyboardView?.bounds.size.height != keyboardHeight {
         return
       }
 
@@ -127,10 +185,10 @@ public class KeyboardMovementObserver: NSObject {
       let keyboardWindowH = keyboardView?.window?.bounds.size.height ?? 0
       let keyboardPosition = keyboardWindowH - keyboardFrameY
       let position = CGFloat.interpolate(
-        inputRange: [(keyboardHeight + offset) / 2, -(keyboardHeight + offset) / 2],
-        outputRange: [keyboardHeight + offset, 0],
+        inputRange: [keyboardHeight / 2, -keyboardHeight / 2],
+        outputRange: [keyboardHeight, 0],
         currentValue: keyboardPosition
-      ) - offset
+      )
       print("AAA kh: \(keyboardHeight) kp: \(keyboardPosition) p: \(position)")
 
       if position == 0 {
@@ -156,11 +214,31 @@ public class KeyboardMovementObserver: NSObject {
     NotificationCenter.default.removeObserver(self)
   }
 
+    @objc func keyboardWillChangeFrame(_ notification: Notification) {
+        guard let keyboardEndFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        let keyboardVisibleHeight = UIScreen.main.bounds.height - keyboardEndFrame.origin.y
+        print("kwch \(keyboardVisibleHeight) \(Date.currentTimeStamp)")
+        /*if keyboardVisibleHeight == 0.0 {
+            print("clean - will change frame")
+            // clean dark magic
+            let input = FocusedInputHolder.shared.get() as? UITextField
+            print(input)
+            input?.inputAccessoryView = nil
+            input?.reloadInputViews()
+            input?.layoutIfNeeded()
+            _keyboardView?.layoutIfNeeded()
+            offset = 0.0
+        }*/
+    }
+    
   @objc func keyboardWillAppear(_ notification: Notification) {
     if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
       tag = UIResponder.current.reactViewTag
-        
-      let keyboardHeight = keyboardFrame.cgRectValue.size.height - offset
+        if (UIResponder.current?.inputAccessoryView == nil) {
+            
+        }
+      let keyboardHeight = keyboardFrame.cgRectValue.size.height
       let duration = Int(
         (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double ?? 0) * 1000
       )
@@ -194,7 +272,19 @@ public class KeyboardMovementObserver: NSObject {
     data["duration"] = duration
     data["timestamp"] = Date.currentTimeStamp
     data["target"] = tag
-
+//////////////////
+      // clean dark magic
+      /*let input = FocusedInputHolder.shared.get() as? UITextField
+      input?.inputAccessoryView?.frame = CGRect.init(x: 0, y: 0, width: 0, height: 0)
+      input?.inputAccessoryView?.layoutIfNeeded()
+      input?.reloadInputViews()
+      input?.layoutIfNeeded()
+      inputAccessoryView?.removeFromSuperview()*/
+      // _keyboardView?.layoutIfNeeded()
+      // _keyboardView?.reloadInputViews()
+      // input?.inputAccessoryView?.isHidden = true
+      offset = 0.0
+//////////////////
     onEvent("onKeyboardMoveStart", 0, 0, duration as NSNumber, tag)
     onNotify("KeyboardController::keyboardWillHide", data)
       
@@ -206,7 +296,7 @@ public class KeyboardMovementObserver: NSObject {
 
   @objc func keyboardDidAppear(_ notification: Notification) {
     if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-      let keyboardHeight = keyboardFrame.cgRectValue.size.height - offset
+      let keyboardHeight = keyboardFrame.cgRectValue.size.height
       tag = UIResponder.current.reactViewTag
       self.keyboardHeight = keyboardHeight
       let duration = Int(
@@ -230,8 +320,12 @@ public class KeyboardMovementObserver: NSObject {
       let h = 50.0
       offset = h
         if let activeTextField = UIResponder.current as? UITextField, activeTextField.inputAccessoryView == nil {
-          activeTextField.inputAccessoryView = InvisibleInputAccessoryView(frame: CGRect(x: 0, y: 0, width: 0, height: h))
+            print("ATTACH FAKE ACCESSORY VIEW")
+            inputAccessoryView = InvisibleInputAccessoryView(frame: CGRect(x: 0, y: 0, width: 0, height: h))
+          activeTextField.inputAccessoryView = inputAccessoryView
           activeTextField.reloadInputViews()
+            del = CustomDelegate(inputAccessoryView: inputAccessoryView)
+            activeTextField.delegate = del
       }
     }
   }
@@ -284,7 +378,7 @@ public class KeyboardMovementObserver: NSObject {
 
     let keyboardFrameY = keyboardView?.layer.presentation()?.frame.origin.y ?? 0
     let keyboardWindowH = keyboardView?.window?.bounds.size.height ?? 0
-    let keyboardPosition = keyboardWindowH - keyboardFrameY // - offset
+    let keyboardPosition = keyboardWindowH - keyboardFrameY
 
     if keyboardPosition == prevKeyboardPosition || keyboardFrameY == 0 {
       return
@@ -301,4 +395,14 @@ public class KeyboardMovementObserver: NSObject {
       tag
     )
   }
+    
+    private func onEvent(_ event: NSString, _ position: NSNumber, _ progress: NSNumber, _ duration: NSNumber, _ tag: NSNumber) {
+        onEventHanlder(
+          event,
+          max((CGFloat(position) - offset), 0) as NSNumber,
+          progress,
+          duration,
+          tag
+        )
+    }
 }
