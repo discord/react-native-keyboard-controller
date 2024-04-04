@@ -1274,7 +1274,7 @@ PODS:
     - React-utils (= 0.74.0-rc.6)
   - RNCMaskedView (0.3.1):
     - React-Core
-  - RNGestureHandler (2.15.0):
+  - RNGestureHandler (2.16.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1295,7 +1295,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated (3.8.0):
+  - RNReanimated (3.9.0-nightly-20240402-12717cdb5):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1316,7 +1316,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.29.0):
+  - RNScreens (3.31.0-rc.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1336,9 +1336,9 @@ PODS:
     - React-utils
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNScreens/common (= 3.29.0)
+    - RNScreens/common (= 3.31.0-rc.0)
     - Yoga
-  - RNScreens/common (3.29.0):
+  - RNScreens/common (3.31.0-rc.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1615,9 +1615,9 @@ SPEC CHECKSUMS:
   React-utils: d16c1d2251c088ad817996621947d0ac8167b46c
   ReactCommon: 2aa35648354bd4c4665b9a5084a7d37097b89c10
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
-  RNGestureHandler: 126f3e130fc351e0f7a68e55570f8a0959e813f9
-  RNReanimated: dcb4dd2400f5053835bd71f813825e43150a4a2a
-  RNScreens: 4cd3c8bb87d8c2419ed171b5f994881372f7e8f2
+  RNGestureHandler: 9265c3b902cd8408ba4376b1a34d9708a6da4ac3
+  RNReanimated: 9f8b385cce154d0a705badf9e9dd16a4a8dc363a
+  RNScreens: 5182ef2e397db227fac46525796454827749069d
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 23e49e26d83fc88956084a85f4190563fa1b655e
 
